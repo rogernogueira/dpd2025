@@ -1,5 +1,6 @@
 from agno.agent import Agent
 from agno.models.ollama import Ollama
+
 agent = Agent( model=Ollama(id="qwen3:0.6b"), 
              debug_mode=False,
              markdown=False,

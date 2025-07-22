@@ -8,6 +8,7 @@ from pydantic import BaseModel, Field
 import requests
 import bs4
 
+
 class TaxaResponse(BaseModel):
     taxa: float = Field(..., description="Taxa de exportação para os EUA a partir de 1 de agosto de 2025")
 

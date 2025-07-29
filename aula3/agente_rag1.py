@@ -7,7 +7,6 @@ from agno.knowledge.pdf import PDFKnowledgeBase
 from agno.document.chunking.fixed import FixedSizeChunking
 from agno.vectordb.search import SearchType
 
-
 embedder = OllamaEmbedder(id="nomic-embed-text:v1.5",dimensions=768)
 
 vector_store = ChromaDb(
@@ -30,11 +29,19 @@ agent = Agent(
     knowledge=base_knowledge,
     search_knowledge=True,
     show_tool_calls=True,
-    instructions=""" Você é um assitente juridico que reponde pergurtas com base na sua base conhecimento.
-    - Responda as perguntas com base na base de conhecimento
-     - Se não souber a resposta, diga que não sabe
+    instructions="""
+     - Sempre busque (search_knowledge) na base de conhecimento
+    - So reponsta com base na base de conhecimento(knowledge)
+     - Se não encotrar resposta na base de conhecimento (knowledge), diga que não sabe
+     - cheque (search_knowledge) sempre a base de conhecimento (knowledge) antes de responder
     """
 )
-agent.print_response(" quantos representantes pode ter o campus de gurupi no CPPD?")
+
+while True:
+    pergunta = input("Digite sua pergunta: ")
+    if pergunta.lower() == "sair":
+        break
+    resposta = agent.run(pergunta)
+    print(resposta.content)
 
 
